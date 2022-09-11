@@ -61,9 +61,9 @@ def get_dict(path):
     return word_dict, int_text
 
 
-class TextGenRNN(nn.Module):
+class GenRNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, n_layers, device):
-        super(TextGenRNN, self).__init__()
+        super(GenRNN, self).__init__()
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.output_size = output_size
@@ -83,7 +83,7 @@ class TextGenRNN(nn.Module):
         return out
 
 
-class ModelText:
+class GenModel:
     def __init__(self, int_text, word_dict, device):
 
         self.seq_len = 32  # predicting next word form the previous 32 words
@@ -99,7 +99,7 @@ class ModelText:
         self.print_every = 1
         self.lr = 0.001
         self.device = device
-        self.rnn = TextGenRNN(self.input_size,
+        self.rnn = GenRNN(self.input_size,
                               self.hidden_size,
                               self.output_size,
                               self.n_layers,
@@ -123,7 +123,7 @@ class ModelText:
                 if not self.int_text[counter:self.seq_len + counter]:
                     print(
                         "\nError: The dataset is too small and/or the values  seq_len and batch_size are incorrect in"
-                        "ModelText",
+                        "GenModel",
                         file=sys.stderr)
                     exit()
                 x_list.append(self.int_text[counter:self.seq_len + counter])
@@ -185,7 +185,7 @@ def main():
     else:
         device = "cpu"
     word_dict, int_text = get_dict(args.input_dir)
-    g1 = ModelText(int_text, word_dict, device)
+    g1 = GenModel(int_text, word_dict, device)
     g1.fit()
     filename = args.model
     pickle.dump(g1, open(filename, 'wb'))
