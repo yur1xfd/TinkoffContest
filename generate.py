@@ -1,9 +1,7 @@
 import argparse
 import pickle
-from train import ModelText
-from train import TextGenRNN
-
-
+from train import GenModel
+from train import GenRNN
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default='model.pkl', help="path to models")
